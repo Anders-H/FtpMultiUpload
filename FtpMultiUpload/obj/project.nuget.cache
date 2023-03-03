@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "jZV33nQHd0cg5gRhAcqczqty/XGMpIEzezORJkqiCFnk38omb5JC9UdCOMhNWW1AeiaqQbbVSwyRdC1SM8SmOg==",
+  "success": true,
+  "projectFilePath": "D:\\GitRepos\\FtpMultiUpload\\FtpMultiUpload\\FtpMultiUpload.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hbom\\.nuget\\packages\\winsoftfileutility\\1.0.3\\winsoftfileutility.1.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

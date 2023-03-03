@@ -1,0 +1,15 @@
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\bin\Release\net7.0\FtpMultiUpload.exe
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\bin\Release\net7.0\FtpMultiUpload.deps.json
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\bin\Release\net7.0\FtpMultiUpload.runtimeconfig.json
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\bin\Release\net7.0\FtpMultiUpload.dll
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\bin\Release\net7.0\FtpMultiUpload.pdb
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\obj\Release\net7.0\FtpMultiUpload.csproj.AssemblyReference.cache
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\obj\Release\net7.0\FtpMultiUpload.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\obj\Release\net7.0\FtpMultiUpload.AssemblyInfoInputs.cache
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\obj\Release\net7.0\FtpMultiUpload.AssemblyInfo.cs
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\obj\Release\net7.0\FtpMultiUpload.csproj.CoreCompileInputs.cache
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\obj\Release\net7.0\FtpMultiUpload.dll
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\obj\Release\net7.0\refint\FtpMultiUpload.dll
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\obj\Release\net7.0\FtpMultiUpload.pdb
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\obj\Release\net7.0\FtpMultiUpload.genruntimeconfig.cache
+C:\Users\hbom\Desktop\FtpMultiUpload\FtpMultiUpload\obj\Release\net7.0\ref\FtpMultiUpload.dll

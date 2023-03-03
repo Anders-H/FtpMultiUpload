@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FtpMultiUpload": {
+      "commandName": "Project",
+      "commandLineArgs": "ftp://ftp.ahesselbom.se/temp/UploadTest ahesselbom.se Kalas10Freddie!40 \"D:\\Temp\\UploadLabb\" \"D:\\Temp\\FtpMultiUpload.log\""
+    }
+  }
+}
