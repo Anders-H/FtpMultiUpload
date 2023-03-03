@@ -17,7 +17,6 @@ var logFilePath = args[4];
 if (!sourceDirectory.Exists)
 {
     Console.WriteLine($"Directory does not exist: {sourceDirectory.FullName}");
-    Thread.Sleep(2000);
     return;
 }
 
