@@ -13,31 +13,31 @@ public class File
     {
         Fullname = fullname;
         BaseDirectory = baseDirectory;
-        ServerName = fullname.Replace(baseDirectory, "").Replace(@"\", @"/");
+        ServerName = fullname.Replace(baseDirectory, "").Replace(@"\", "/");
 
         if (ServerName.StartsWith('/'))
             ServerName = ServerName[1..];
     }
 
-    public void Upload(StreamWriter log, string ftpTarget, string ftpUsername, string ftpPassword)
+    public bool Upload(StreamWriter log, string ftpTarget, WebClient client)
     {
-        var target = $"{ftpTarget}{(ftpTarget.EndsWith('/') ? "" : @"/")}{ServerName}";
-        CreateDirectories(log, target, ftpUsername, ftpPassword);
-
+        var target = $"{ftpTarget}{(ftpTarget.EndsWith('/') ? "" : "/")}{ServerName}";
+        CreateDirectories(log, target, (NetworkCredential)client.Credentials!);
+        
         try
         {
-            using var client = new WebClient();
-            client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
             client.UploadFile(target, "STOR", Fullname);
+            return true;
         }
         catch (Exception e)
         {
             Console.WriteLine($@"Failed to upload ""{ServerName}"": ""{e.Message}""");
             log.WriteLine($@"Failed to upload ""{ServerName}"": ""{e.Message}""");
+            return false;
         }
     }
 
-    private static void CreateDirectories(TextWriter log, string target, string ftpUsername, string ftpPassword)
+    private static void CreateDirectories(TextWriter log, string target, NetworkCredential credential)
     {
         try
         {
@@ -67,7 +67,7 @@ public class File
                 {
                     var ftpRequest = (FtpWebRequest)WebRequest.Create(dir);
                     ftpRequest.Method = WebRequestMethods.Ftp.MakeDirectory;
-                    ftpRequest.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+                    ftpRequest.Credentials = credential;
                     using var response = (FtpWebResponse)ftpRequest.GetResponse();
                     Console.WriteLine(response.StatusCode);
                     log.WriteLine(response.StatusCode);

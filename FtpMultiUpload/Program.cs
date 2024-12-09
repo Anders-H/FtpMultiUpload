@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using FileUtility;
 
 if (args.Length != 5)
@@ -22,6 +23,7 @@ if (!sourceDirectory.Exists)
 var files = new List<FtpMultiUpload.File>();
 var filesOnDiskCount = 0;
 var tooOldCount = 0;
+var ignoredCount = 0;
 var wrongTypeCount = 0;
 
 var i = 1;
@@ -30,20 +32,25 @@ AddFilesFromDirectory(sourceDirectory, sourceDirectory.FullName);
 
 Console.WriteLine($"Files on disk: {filesOnDiskCount}");
 Console.WriteLine($"Too old to include: {tooOldCount}");
+Console.WriteLine($"Ignored: {ignoredCount}");
 Console.WriteLine($"Wrong type: {wrongTypeCount}");
 log.WriteLine($"Files on disk: {filesOnDiskCount}");
 log.WriteLine($"Too old to include: {tooOldCount}");
+log.WriteLine($"Ignored: {ignoredCount}");
 log.WriteLine($"Wrong type: {wrongTypeCount}");
 
 var startTime = DateTime.Now;
 log.WriteLine($"Start time: {startTime:yyyy-MM-dd hh:mm:ss}");
 Console.WriteLine($"Start time: {startTime:yyyy-MM-dd hh:mm:ss}");
 
+using var client = new WebClient();
+client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+
 foreach (var file in files)
 {
     log.WriteLine($"{i:000}/{files.Count:000}: Uploading {file.ServerName}");
     Console.WriteLine($"{i:000}/{files.Count:000}: Uploading {file.ServerName}");
-    file.Upload(log, ftpTarget, ftpUsername, ftpPassword);
+    file.Upload(log, ftpTarget, client);
     i++;
 }
 
@@ -71,6 +78,7 @@ void AddFilesFromDirectory(DirectoryInfo dir, string baseDirectory)
         filesOnDiskCount++;
         switch (file.Extension.ToLower())
         {
+            case ".txt":
             case ".html":
             case ".css":
             case ".xml":
@@ -97,6 +105,7 @@ void AddFilesFromDirectory(DirectoryInfo dir, string baseDirectory)
             case ".ico":
                 Console.WriteLine($"Ignoring file: {f.CompactPathForDisplay(40)}");
                 log.WriteLine($"Ignoring file: {f.CompactPathForDisplay(40)}");
+                ignoredCount++;
                 break;
             default:
                 Console.WriteLine($"Unexpected file extension: {file.Extension} on file {f.CompactPathForDisplay(40)}");
