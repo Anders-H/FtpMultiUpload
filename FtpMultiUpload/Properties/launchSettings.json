@@ -2,7 +2,7 @@
   "profiles": {
     "FtpMultiUpload": {
       "commandName": "Project",
-      "commandLineArgs": "ftp://ftp.ahesselbom.se/temp/UploadTest ahesselbom.se Kalas10Freddie!40 \"D:\\Temp\\UploadLabb\" \"D:\\Temp\\FtpMultiUpload.log\""
+      "commandLineArgs": "ssh.cp203utxc.service.one cp203utxc_ssh mTi5c57I4ble \"/customers/e/9/1/cp203utxc/webroots/www\" \"C:\\Users\\hbom\\OneDrive\\ahesselbom.se2\\Output\" \"C:\\Users\\hbom\\OneDrive\\ahesselbom.se2\\Upload.log\""
     }
   }
 }

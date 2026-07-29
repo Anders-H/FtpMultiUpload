@@ -1,8 +1,8 @@
-﻿using System.Net;
+﻿using FileUtility;
 using System.Text;
-using FileUtility;
+using Renci.SshNet;
 
-if (args.Length != 5)
+if (args.Length != 6)
 {
     ShowHelp();
     return;
@@ -11,8 +11,14 @@ if (args.Length != 5)
 var ftpTarget = args[0];
 var ftpUsername = args[1];
 var ftpPassword = args[2];
-var sourceDirectory = new DirectoryInfo(args[3]);
-var logFilePath = args[4];
+var ftpRootPath = args[3];
+var sourceDirectory = new DirectoryInfo(args[4]);
+var logFilePath = args[5];
+var uploadAll = false;
+
+#if DEBUG
+uploadAll = true;
+#endif
 
 if (!sourceDirectory.Exists)
 {
@@ -43,18 +49,20 @@ var startTime = DateTime.Now;
 log.WriteLine($"Start time: {startTime:yyyy-MM-dd hh:mm:ss}");
 Console.WriteLine($"Start time: {startTime:yyyy-MM-dd hh:mm:ss}");
 
-using var client = new WebClient();
-client.Credentials = new NetworkCredential(ftpUsername, ftpPassword);
+
+
+using var client = new SftpClient(ftpTarget, ftpUsername, ftpPassword);
+client.Connect();
 
 foreach (var file in files)
 {
     log.WriteLine($"{i:000}/{files.Count:000}: Uploading {file.ServerName}");
     Console.WriteLine($"{i:000}/{files.Count:000}: Uploading {file.ServerName}");
-    file.Upload(log, ftpTarget, client);
+    file.Upload(log, ftpRootPath, client);
     i++;
 }
 
-
+client.Disconnect();
 var endTime = DateTime.Now;
 log.WriteLine($"End time: {endTime:yyyy-MM-dd hh:mm:ss}");
 Console.WriteLine($"End time: {endTime:yyyy-MM-dd hh:mm:ss}");
@@ -88,7 +96,7 @@ void AddFilesFromDirectory(DirectoryInfo dir, string baseDirectory)
             case ".jpg":
             case ".gif":
             case ".png":
-                if (DateTime.Now.Subtract(file.LastWriteTime).TotalHours < ageInHours)
+                if (uploadAll || DateTime.Now.Subtract(file.LastWriteTime).TotalHours < ageInHours)
                 {
                     files.Insert(0, new FtpMultiUpload.File(f.FullName, baseDirectory));
                     Console.WriteLine($"File added: {f.CompactPathForDisplay(40)}");
@@ -121,5 +129,6 @@ void ShowHelp() =>
  - Target address (ftp://ftp.mysite.com/myfolder - existing files will be overwritten)
  - FTP username
  - FTP password
+ - FTP root path
  - Source directory (""C:\MyFiles"")
  - Log filename (""C:\Temp\FtpMultiUpload.log"" - will be overwritten)");

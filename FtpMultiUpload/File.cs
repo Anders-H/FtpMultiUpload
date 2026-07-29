@@ -1,4 +1,4 @@
-﻿using System.Net;
+﻿using Renci.SshNet;
 
 namespace FtpMultiUpload;
 
@@ -19,14 +19,15 @@ public class File
             ServerName = ServerName[1..];
     }
 
-    public bool Upload(StreamWriter log, string ftpTarget, WebClient client)
+    public bool Upload(StreamWriter log, string ftpTarget, SftpClient client)
     {
         var target = $"{ftpTarget}{(ftpTarget.EndsWith('/') ? "" : "/")}{ServerName}";
-        CreateDirectories(log, target, (NetworkCredential)client.Credentials!);
-        
+        CreateDirectories(log, target, client);
+
         try
         {
-            client.UploadFile(target, "STOR", Fullname);
+            using var fileStream = System.IO.File.OpenRead(Fullname);
+            client.UploadFile(fileStream, target);
             return true;
         }
         catch (Exception e)
@@ -37,41 +38,35 @@ public class File
         }
     }
 
-    private static void CreateDirectories(TextWriter log, string target, NetworkCredential credential)
+    private static void CreateDirectories(TextWriter log, string target, SftpClient client)
     {
         try
         {
-            var parts = target.Split('/');
+            var parts = target.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
-            if (parts.Length < 3)
+            if (parts.Length < 2)
                 return;
 
-            var dir = "ftp:/";
+            var dir = "";
 
-            for (var i = 2; i < parts.Length - 1; i++)
+            for (var i = 0; i < parts.Length - 1; i++)
             {
-                dir += "/";
-                dir += parts[i];
-
-                if (i < 3)
-                    continue;
+                dir += "/" + parts[i];
 
                 if (CreatedDirectories.Exists(x => x == dir))
                     continue;
 
+                CreatedDirectories.Add(dir);
+
+                if (client.Exists(dir))
+                    continue;
+
                 Console.WriteLine($"Create dir: {dir}");
                 log.WriteLine($"Create dir: {dir}");
-                CreatedDirectories.Add(dir);
 
                 try
                 {
-                    var ftpRequest = (FtpWebRequest)WebRequest.Create(dir);
-                    ftpRequest.Method = WebRequestMethods.Ftp.MakeDirectory;
-                    ftpRequest.Credentials = credential;
-                    using var response = (FtpWebResponse)ftpRequest.GetResponse();
-                    Console.WriteLine(response.StatusCode);
-                    log.WriteLine(response.StatusCode);
-                    response.Close();
+                    client.CreateDirectory(dir);
                 }
                 catch (Exception createException)
                 {
