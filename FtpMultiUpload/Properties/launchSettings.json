@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "FtpMultiUpload": {
-      "commandName": "Project",
-      "commandLineArgs": "args""
-    }
-  }
-}
