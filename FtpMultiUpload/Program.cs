@@ -49,8 +49,6 @@ var startTime = DateTime.Now;
 log.WriteLine($"Start time: {startTime:yyyy-MM-dd hh:mm:ss}");
 Console.WriteLine($"Start time: {startTime:yyyy-MM-dd hh:mm:ss}");
 
-
-
 using var client = new SftpClient(ftpTarget, ftpUsername, ftpPassword);
 client.Connect();
 
