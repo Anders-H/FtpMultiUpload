@@ -2,7 +2,7 @@
   "profiles": {
     "FtpMultiUpload": {
       "commandName": "Project",
-      "commandLineArgs": "ssh.cp203utxc.service.one cp203utxc_ssh \"555ggg>YYY<xxx\" \"/customers/e/9/1/cp203utxc/webroots/www\" \"C:\\Users\\hbom\\OneDrive\\ahesselbom.se2\\Output\" \"C:\\Users\\hbom\\OneDrive\\ahesselbom.se2\\Upload.log\""
+      "commandLineArgs": "args""
     }
   }
 }
